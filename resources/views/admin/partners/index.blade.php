@@ -31,8 +31,8 @@
             <thead class="bg-slate-50 text-slate-400 uppercase text-[10px] font-black tracking-widest">
                 <tr>
                     <th class="px-8 py-4 w-16">No</th>
-                    <th class="px-8 py-4">Nama Partner</th>
                     <th class="px-8 py-4">Logo URL</th>
+                    <th class="px-8 py-4">Nama Partner</th>
                     <th class="px-8 py-4">Dibuat</th>
                     <th class="px-8 py-4">Aksi</th>
                 </tr>
@@ -41,8 +41,19 @@
                 @forelse($partners as $index => $partner)
                 <tr class="hover:bg-slate-50/50 transition">
                     <td class="px-8 py-6 font-bold text-slate-400">{{ $index + 1 }}</td>
+                    <td class="px-8 py-6">
+                        @if($partner->logo_url)
+                            <img src="{{ $partner->logo_url }}"
+                                 alt="{{ $partner->name }}"
+                                 class="h-12 w-12 object-contain rounded-xl border border-slate-100"
+                                 onerror="this.onerror=null;this.src='https://placehold.co/200x200?text={{ urlencode($partner->name) }}'">
+                        @else
+                            <div class="h-12 w-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 font-black text-lg">
+                                {{ strtoupper(substr($partner->name, 0, 1)) }}
+                            </div>
+                        @endif
+                    </td>
                     <td class="px-8 py-6 font-bold">{{ $partner->name }}</td>
-                    <td class="px-8 py-6 text-slate-500 text-sm truncate max-w-xs">{{ $partner->logo_url ?? '-' }}</td>
                     <td class="px-8 py-6 text-slate-500 text-sm">{{ $partner->created_at->format('d M Y') }}</td>
                     <td class="px-8 py-6">
                         <div class="flex gap-2">

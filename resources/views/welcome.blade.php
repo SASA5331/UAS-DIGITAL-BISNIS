@@ -199,7 +199,7 @@
 
                         </span>
 
-                        <a href="/event/{{ $event->id }}"
+                        <a href="{{ route('events.show', $event->id) }}"
                             class="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl font-bold hover:bg-indigo-600 hover:text-white transition whitespace-nowrap">
 
                             Lihat Detail
