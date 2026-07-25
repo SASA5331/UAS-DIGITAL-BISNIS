@@ -54,15 +54,12 @@
                 </svg>
                 Kelola Partner
             </a>
-<<<<<<< HEAD
-=======
             <a href="{{ route('admin.organizations.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.organizations.*') ? 'bg-indigo-800 text-white' : 'hover:bg-indigo-800' }} rounded-xl font-bold transition">
                 <svg class="w-5 h-5 {{ request()->routeIs('admin.organizations.*') ? 'text-indigo-300' : 'text-indigo-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                 </svg>
                 Organisasi
             </a>
->>>>>>> origin/final-branch
         </nav>
 
         <div class="pt-6 border-t border-indigo-800">
@@ -108,8 +105,4 @@
         @yield('content')
     </main>
 </body>
-<<<<<<< HEAD
-</html>
-=======
 </html>v
->>>>>>> origin/final-branch
