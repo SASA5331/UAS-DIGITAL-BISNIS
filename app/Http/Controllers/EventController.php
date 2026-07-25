@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Category;
+use App\Models\Event;
+
+class EventController extends Controller
+{
+
+    public function show(Event $event)
+    {
+        $categories = Category::all();
+
+        return view('event-detail', compact('categories', 'event'));
+    }
+
+    public function checkout()
+    {
+        return view('checkout');
+    }
+
+    public function ticket()
+    {
+        return view('ticket');
+    }
+}

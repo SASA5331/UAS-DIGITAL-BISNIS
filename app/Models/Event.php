@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Event extends Model
+{
+    protected $fillable = [
+    'category_id', 'title', 'description', 'date',
+    'location', 'price', 'stock', 'poster_path'
+    ];
+
+    protected $casts = [
+    'date' => 'datetime',
+    ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(\App\Models\Review::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(\App\Models\Transaction::class);
+    }
+}
