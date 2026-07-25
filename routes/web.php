@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PengurusController;
+use App\Http\Controllers\Admin\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +52,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth', 'admin'])->group(function () {
 
         // Dashboard
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         // CRUD Events
         Route::resource('events', AdminEventController::class);
@@ -67,6 +68,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // CRUD Partners
         Route::resource('partners', PartnerController::class);
+
+        // Reports Fix (Tanpa dobel prefix /admin/)
+        Route::get('/reports', [TransactionController::class, 'index'])->name('reports');
     });
 });
 
