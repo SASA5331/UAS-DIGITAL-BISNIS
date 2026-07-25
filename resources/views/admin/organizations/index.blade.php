@@ -12,10 +12,6 @@
     </button>
 </header>
 
-@if(session('success'))
-<div class="mb-6 p-4 bg-green-100 text-green-700 rounded-xl font-bold">{{ session('success') }}</div>
-@endif
-
 <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
     <table class="w-full text-left">
         <thead class="bg-slate-50 text-slate-400 uppercase text-[10px] font-black tracking-widest">
