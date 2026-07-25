@@ -73,6 +73,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Kelola Organisasi -- Soal 1 Fitur 3
         Route::resource('organizations', OrganizationController::class)
              ->only(['index', 'store', 'update', 'destroy']);
+
+        // Reports Fix (Tanpa dobel prefix /admin/)
+        Route::get('/reports', [TransactionController::class, 'index'])->name('reports');     
     });
 });
 
