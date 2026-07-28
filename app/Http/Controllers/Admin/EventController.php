@@ -89,4 +89,9 @@ class EventController extends Controller
         return redirect()->route('admin.events.index')
             ->with('success', 'Data event berhasil dihapus.');
     }
+
+    public function show(Event $event)
+    {
+        return redirect()->route('admin.events.edit', $event->id);
+    }
 }
