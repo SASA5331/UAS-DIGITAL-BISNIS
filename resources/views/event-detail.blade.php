@@ -104,24 +104,24 @@
     </div>
 
     {{-- ========== SSO GOOGLE & REVIEW (UAS) ========== --}}
-    <div class="max-w-7xl mx-auto px-6 pb-16 grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+    <div class="col-span-1 lg:col-span-3 w-full pb-16 grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
 
         {{-- SSO Google -- Soal 1 Fitur 1 --}}
-        <div class="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm">
+        <div class="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm h-fit">
             <h3 class="text-xl font-bold mb-2">Pesan Lebih Cepat</h3>
             <p class="text-slate-500 text-sm mb-6">Login dengan Google sekali klik, lalu langsung checkout tanpa isi form panjang.</p>
             @auth
-                <div class="flex items-center gap-3 p-4 bg-green-50 rounded-2xl">
+                <div class="flex flex-wrap items-center gap-3 p-4 bg-green-50 rounded-2xl">
                     @if(auth()->user()->avatar)
                         <img src="{{ auth()->user()->avatar }}" class="w-10 h-10 rounded-full">
                     @endif
-                    <div>
+                    <div class="flex-1">
                         <p class="font-bold text-green-700">{{ auth()->user()->name }}</p>
                         <p class="text-xs text-green-500">Sudah login — langsung bisa pesan tiket!</p>
                     </div>
-                    <form action="{{ route('auth.logout') }}" method="POST" class="ml-auto">
+                    <form action="{{ route('auth.logout') }}" method="POST">
                         @csrf
-                        <button class="text-xs text-slate-400 hover:text-rose-500 font-bold">Keluar</button>
+                        <button class="text-xs text-slate-400 hover:text-rose-500 font-bold whitespace-nowrap">Keluar</button>
                     </form>
                 </div>
             @else
@@ -136,7 +136,7 @@
         {{-- Rating & Review -- Soal 1 Fitur 2 --}}
         @php $reviews = $event->reviews ?? collect(); @endphp
         <div class="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm">
-            <div class="flex items-center justify-between mb-6">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <h3 class="text-xl font-bold">Ulasan Peserta</h3>
                 @if($reviews->count() > 0)
                 <div class="flex items-center gap-2">
@@ -151,16 +151,16 @@
             @if(session('error'))<div class="mb-4 p-3 bg-red-100 text-red-700 rounded-xl text-sm font-bold">{{ session('error') }}</div>@endif
             <form action="{{ route('reviews.store', $event->id) }}" method="POST" class="mb-6 space-y-4 p-5 bg-slate-50 rounded-2xl">
                 @csrf
-                <div class="grid grid-cols-2 gap-3">
-                    <input type="text" name="reviewer_name" placeholder="Nama kamu" class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm" required value="{{ auth()->user()->name ?? '' }}">
-                    <input type="email" name="reviewer_email" placeholder="Email kamu" class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm" required value="{{ auth()->user()->email ?? '' }}">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <input type="text" name="reviewer_name" placeholder="Nama kamu" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm" required value="{{ auth()->user()->name ?? '' }}">
+                    <input type="email" name="reviewer_email" placeholder="Email kamu" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm" required value="{{ auth()->user()->email ?? '' }}">
                 </div>
                 <div>
                     <p class="text-xs font-bold text-slate-500 mb-1">Rating</p>
                     <input type="hidden" name="rating" id="ratingInput" value="5">
                     <div class="flex gap-1">
                         @for($i = 1; $i <= 5; $i++)
-                        <button type="button" class="star-btn text-yellow-400 text-2xl leading-none" data-value="{{ $i }}">★</button>
+                        <button type="button" class="star-btn text-yellow-400 text-2xl leading-none focus:outline-none" data-value="{{ $i }}">★</button>
                         @endfor
                     </div>
                 </div>
@@ -171,7 +171,7 @@
             <div class="mb-4 p-3 bg-amber-50 text-amber-700 rounded-xl text-sm">Ulasan hanya bisa diberikan setelah event selesai.</div>
             @endif
 
-            <div class="space-y-3 max-h-64 overflow-y-auto">
+            <div class="space-y-3 max-h-64 overflow-y-auto pr-2">
                 @forelse($reviews->sortByDesc('created_at') as $review)
                 <div class="border border-slate-100 rounded-2xl p-4">
                     <div class="flex justify-between items-start mb-1">
@@ -196,7 +196,6 @@
 
 @push('scripts')
 <script>
-// Highlight bintang rating
 document.querySelectorAll('.star-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         const val = this.dataset.value;
