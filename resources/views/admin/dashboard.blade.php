@@ -58,11 +58,53 @@
     </div>
 </div>
 
+<!-- === GRAFIK & TOP 5 EVENT === -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+    <!-- Chart Pendapatan -->
+    <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+        <h3 class="text-lg font-bold mb-4 text-slate-700">Pendapatan 6 Bulan Terakhir</h3>
+        <canvas id="revenueChart" height="250"></canvas>
+    </div>
+
+    <!-- Chart Transaksi -->
+    <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+        <h3 class="text-lg font-bold mb-4 text-slate-700">Jumlah Transaksi per Bulan</h3>
+        <canvas id="transactionChart" height="250"></canvas>
+    </div>
+</div>
+
+<!-- Top 5 Event -->
+<div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm mb-10">
+    <h3 class="text-lg font-bold mb-4 text-slate-700">Top 5 Event Terlaris</h3>
+    <div class="space-y-4">
+        @forelse($topEvents as $index => $event)
+        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-black">
+                    {{ $index + 1 }}
+                </div>
+                <div>
+                    <p class="font-bold text-slate-800">{{ $event->title }}</p>
+                    <p class="text-xs text-slate-500">{{ $event->category->name ?? 'Kategori Umum' }}</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <p class="font-bold text-indigo-600">{{ $event->transactions_count }} Tiket Terjual</p>
+            </div>
+        </div>
+        @empty
+        <p class="text-sm text-slate-500">Belum ada data event terjual.</p>
+        @endforelse
+    </div>
+</div>
+
 <!-- Tabel Transaksi Terakhir -->
 <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
     <div class="p-8 border-b flex justify-between items-center">
         <h3 class="font-black text-xl">Transaksi Terakhir</h3>
-        <a href="{{ route('admin.transactions.index') }}" class="text-indigo-600 font-bold hover:underline">Lihat Semua</a>
+        <a href="{{ route('admin.transactions.index') ?? '#' }}" class="text-indigo-600 font-bold hover:underline">Lihat Semua</a>
     </div>
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
@@ -109,5 +151,44 @@
         </table>
     </div>
 </div>
+
+<!-- SCRIPT UNTUK RENDER GRAFIK -->
+<script>
+    const revData = {!! json_encode($revenueChart) !!};
+    const transData = {!! json_encode($transactionChart) !!};
+
+    // Render Chart Pendapatan (Bar)
+    new Chart(document.getElementById('revenueChart'), {
+        type: 'bar',
+        data: {
+            labels: revData.map(item => item.label),
+            datasets: [{
+                label: 'Total Pendapatan (Rp)',
+                data: revData.map(item => item.amount),
+                backgroundColor: '#4f46e5',
+                borderRadius: 4
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+    });
+
+    // Render Chart Transaksi (Line)
+    new Chart(document.getElementById('transactionChart'), {
+        type: 'line',
+        data: {
+            labels: transData.map(item => item.label),
+            datasets: [{
+                label: 'Jumlah Transaksi',
+                data: transData.map(item => item.count),
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+    });
+</script>
 
 @endsection
